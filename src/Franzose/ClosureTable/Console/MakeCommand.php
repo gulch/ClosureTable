@@ -3,6 +3,7 @@ namespace Franzose\ClosureTable\Console;
 
 use Illuminate\Console\DetectsApplicationNamespace;
 use Illuminate\Console\Command;
+use Illuminate\Container\Container;
 use Illuminate\Support\Composer;
 use Symfony\Component\Console\Input\InputOption;
 use Franzose\ClosureTable\Generators\Migration;
@@ -16,8 +17,6 @@ use Franzose\ClosureTable\Extensions\Str as ExtStr;
  */
 class MakeCommand extends Command
 {
-    use DetectsApplicationNamespace;
-
     /**
      * The console command name.
      *
@@ -160,5 +159,15 @@ class MakeCommand extends Command
         $this->options[$options[5][0]] = $input[5] ? $input[5] : './app';
         $this->options[$options[6][0]] = $input[6] ? $input[6] : './database/migrations';
         $this->options[$options[7][0]] = $input[7] ?: false;
+    }
+    
+    /**
+     * Get the application namespace.
+     *
+     * @return string
+     */
+    protected function getAppNamespace()
+    {
+        return Container::getInstance()->getNamespace();
     }
 }
